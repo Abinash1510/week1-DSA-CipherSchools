@@ -9,89 +9,77 @@ struct ListNode {
     ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
-// reverse linked list (Teacher's method)
+// merge two sorted liked list
 
-// ListNode* reverseList(ListNode* head) {
-//     if (head == NULL or head->next == NULL){
-//         return head;
-//     }
-//     ListNode *prev = NULL, *curr = head, *next = NULL;
-//     while (curr != NULL) {
-//         next = curr->next;
-//         curr->next = prev;
-//         prev = curr;
-//         curr = next;
-//     }
-//     return prev;
-// }
-
-// reverse linked list in k group
-
-// ListNode* reverse(ListNode* head){
-//     if (head == NULL or head->next == NULL){
-//         return head;
-//     }
-//     ListNode *prev = NULL, *curr = head, *next = NULL;
-//     while (curr != NULL) {
-//         next = curr->next;
-//         curr->next = prev;
-//         prev = curr;
-//         curr = next;
-//     }
-//     return prev;
-// }
-
-// ListNode* reverseKGroup(ListNode* head, int k) {
-//     auto dummyNode = new ListNode(-1);
-//     auto end = dummyNode;
-//     while(head!=NULL){
-//         auto hd = head;
-//         auto en = head;
-//         for(int i=0;i<k-1;i++){
-//         en = en->next;
-//         if(en==NULL){
-//             end->next = head;
-//             return dummyNode->next;
+// ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+//     ListNode* head = new ListNode(0);
+//     ListNode* curr = head;
+//     while(list1 != NULL && list2 != NULL){
+//         if(list1 -> val <= list2 -> val){
+//             curr -> next = list1;
+//             list1 = list1 -> next;
+//         } else {
+//             curr -> next = list2;
+//             list2 = list2 -> next;
 //         }
-//         }
-//         auto whatNxt = en->next;
-//         en->next = NULL;
-//         end->next=reverse(hd);
-//         end = head;
-//         head = whatNxt;
-//     } 
-
-//     return dummyNode->next;
+//         curr = curr -> next;
+//     }    
+//     if(list1 != NULL) curr -> next = list1;
+//     if(list2 != NULL) curr -> next = list2;
+//     return  head->next;
 // }
 
-// intersection of two linked list
+// merge k sorted list
 
-ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-    ListNode* tail = headA;
-    while(tail->next){
-        tail = tail->next;
+// ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+//     ListNode* head = new ListNode(0);
+//     ListNode* curr = head;
+//     while(list1 != NULL && list2 != NULL){
+//         if(list1 -> val <= list2 -> val){
+//             curr -> next = list1;
+//             list1 = list1 -> next;
+//         } else {
+//             curr -> next = list2;
+//             list2 = list2 -> next;
+//         }
+//         curr = curr -> next;
+//     }    
+//     if(list1 != NULL) curr -> next = list1;
+//     if(list2 != NULL) curr -> next = list2;
+//     return  head->next;
+// }
+
+// ListNode* mergeKLists(vector<ListNode*>& lists) {
+//     if (lists.size()==0){
+//         return NULL;
+//     } else if (lists.size() == 1){
+//         return lists[0];
+//     } else {
+//         int last = lists.size()-1;
+//         while (last > 0) {
+//             int i = 0, j = last;
+//             while(i<j) {
+//                 lists[i] = mergeTwoLists(lists[i], lists[j]);
+//                 i++; j--;
+//                 if (i >= j) {
+//                     last = j;
+//                 }
+//             }
+//         }
+//         return lists[0];
+//     }
+// }
+
+// reverse linked list
+
+ListNode* reverseList(ListNode* head) {
+    if (head == NULL or head->next == NULL){
+        return head;
     }
-
-    tail->next = headA;
-
-    ListNode *fast = headB, *slow = headB;
-
-    while(fast && fast->next){
-        slow = slow->next;
-        fast = fast->next->next;
-
-        if(slow==fast) {
-            slow = headB;
-            while(slow!=fast){
-                slow = slow->next;
-                fast = fast->next;
-            }
-            tail->next = NULL;
-            return slow;
-        };
-    }
-    tail->next = NULL;
-    return NULL;
+    auto result = reverseList(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return result;
 }
 
 int main() {
